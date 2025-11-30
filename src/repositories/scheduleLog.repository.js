@@ -1,7 +1,7 @@
 // src/repositories/scheduleLog.repository.js
-const prisma = require('../config/db');
+import prisma from '../config/prismaClient.js';
 
-exports.createManyWithMachineUpdates = async ({ logs, machineIds }) => {
+export const createManyWithMachineUpdates = async ({ logs, machineIds }) => {
     const now = new Date();
     const itiId = logs[0].ITI_ID;
 
@@ -36,7 +36,7 @@ exports.createManyWithMachineUpdates = async ({ logs, machineIds }) => {
     return result;
 };
 
-exports.findTodayByFilter = ({ itiId, tradeId, batch }) => {
+export const findTodayByFilter = ({ itiId, tradeId, batch }) => {
     const startOfDay = new Date();
     startOfDay.setHours(0, 0, 0, 0);
 

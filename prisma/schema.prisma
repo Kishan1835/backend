@@ -147,6 +147,7 @@ model Students {
   Gender         String
   Year           Int
   Admission_Date DateTime
+  PasswordHash   String?
   Created_At     DateTime @default(now())
   Updated_At     DateTime @updatedAt
   Placed         Boolean  @default(false)

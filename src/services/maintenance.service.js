@@ -1,19 +1,20 @@
 // src/services/maintenance.service.js
-const studentsRepo = require('../repositories/students.repository');
-const machinesRepo = require('../repositories/machines.repository');
-const scheduleLogRepo = require('../repositories/scheduleLog.repository');
+import * as studentsRepo from '../repositories/students.repository.js';
+import * as machinesRepo from '../repositories/machines.repository.js';
+import * as scheduleLogRepo from '../repositories/scheduleLog.repository.js';
 
 // AUTO SCHEDULE logic
-exports.autoScheduleForBatch = async ({ itiId, tradeId, batch, timeSlotMinutes, workerId }) => {
+export const autoScheduleForBatch = async ({ itiId, tradeId, batch, timeSlotMinutes, workerId }) => {
     const students = await studentsRepo.findByBatch({ itiId, tradeId, batch });
     if (!students.length) {
         return { logs: [], unscheduledStudents: students, message: 'No students in batch' };
     }
 
     const machines = await machinesRepo.findForScheduling(itiId);
-    const availableMachines = machines.filter(
-        (m) => m.Status === 'HEALTHY' || m.Status === 'ALERT'
-    );
+    // Only use truly healthy machines for student scheduling.
+    // ALERT or CRITICAL machines should not be assigned to students; they
+    // need maintenance and should be handled by the maintenance flow.
+    const availableMachines = machines.filter((m) => m.Status === 'HEALTHY');
 
     if (!availableMachines.length) {
         return { logs: [], unscheduledStudents: students, message: 'No available machines' };
@@ -50,6 +51,6 @@ exports.autoScheduleForBatch = async ({ itiId, tradeId, batch, timeSlotMinutes, 
 };
 
 // READ today schedule
-exports.getTodaySchedule = async ({ itiId, tradeId, batch }) => {
+export const getTodaySchedule = async ({ itiId, tradeId, batch }) => {
     return scheduleLogRepo.findTodayByFilter({ itiId, tradeId, batch });
 };

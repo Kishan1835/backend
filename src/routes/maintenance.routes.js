@@ -1,12 +1,12 @@
 // src/routes/maintenance.routes.js
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const maintenanceController = require('../controllers/maintenance.controller');
+import { markCaseAsSolved, escalateMaintenanceCase, notifyPolicyMaker, autoScheduleForBatch, getTodaySchedule } from '../controllers/maintenance.controller.js';
 
-// AUTO SCHEDULE for a batch
-router.post('/schedule/auto', maintenanceController.autoScheduleForBatch);
+router.post('/mark-solved', markCaseAsSolved);
+router.post('/escalate', escalateMaintenanceCase);
+router.post('/notify-policy-maker', notifyPolicyMaker);
+router.post('/schedule/auto', autoScheduleForBatch);
+router.get('/schedule/today', getTodaySchedule);
 
-// VIEW TODAY SCHEDULE
-router.get('/schedule/today', maintenanceController.getTodaySchedule);
-
-module.exports = router;
+export default router;

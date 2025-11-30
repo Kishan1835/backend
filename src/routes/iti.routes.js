@@ -1,6 +1,11 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
+import { createITI, getAllITIs, getITIById, updateITI, deleteITI } from '../controllers/iti.controller.js';
 
-// Define ITI routes here
+router.post('/', createITI);
+router.get('/', getAllITIs);
+router.get('/:id', getITIById);
+router.put('/:id', updateITI);
+router.delete('/:id', deleteITI);
 
-module.exports = router;
+export default router;

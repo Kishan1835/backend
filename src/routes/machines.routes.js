@@ -1,9 +1,13 @@
-// src/routes/maintenance.routes.js
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const maintenanceController = require('../controllers/maintenance.controller');
+import { createMachine, getAllMachines, getMachineById, updateMachine, deleteMachine, requestMachineSchedule, assignMachineToStudent } from '../controllers/machines.controller.js';
 
-router.post('/schedule/auto', maintenanceController.autoScheduleForBatch);
-router.get('/schedule/today', maintenanceController.getTodaySchedule);
+router.post('/', createMachine);
+router.get('/', getAllMachines);
+router.get('/:id', getMachineById);
+router.put('/:id', updateMachine);
+router.delete('/:id', deleteMachine);
+router.get('/schedule/:itiId', requestMachineSchedule);
+router.post('/assign', assignMachineToStudent);
 
-module.exports = router;
+export default router;

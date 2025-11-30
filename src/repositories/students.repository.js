@@ -1,7 +1,7 @@
 // src/repositories/students.repository.js
-const prisma = require('../config/db');
+import prisma from '../config/prismaClient.js';
 
-exports.findByBatch = ({ itiId, tradeId, batch }) => {
+export const findByBatch = ({ itiId, tradeId, batch }) => {
     return prisma.students.findMany({
         where: {
             ITI_ID: itiId,

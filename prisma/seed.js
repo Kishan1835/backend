@@ -1,8 +1,10 @@
 require('dotenv').config();
 const prisma = require('../src/config/db');
 const { WorkerRole, MachineStatus } = require('@prisma/client');
+const bcrypt = require('bcrypt');
 
 async function main() {
+    const hashedPassword = await bcrypt.hash('password', 10); // Hash a default password
     console.log('Seeding database...');
 
     // Clear existing data in FK-safe order
@@ -316,6 +318,7 @@ async function main() {
                 Gender: 'Male',
                 Year: 1,
                 Admission_Date: new Date('2024-08-01'),
+                PasswordHash: hashedPassword,
                 Placed: false,
             },
             {
@@ -328,6 +331,7 @@ async function main() {
                 Gender: 'Male',
                 Year: 2,
                 Admission_Date: new Date('2023-08-01'),
+                PasswordHash: hashedPassword,
                 Placed: true,
             },
             {
@@ -340,6 +344,7 @@ async function main() {
                 Gender: 'Female',
                 Year: 1,
                 Admission_Date: new Date('2024-07-20'),
+                PasswordHash: hashedPassword,
                 Placed: false,
             },
             {
@@ -352,6 +357,7 @@ async function main() {
                 Gender: 'Male',
                 Year: 2,
                 Admission_Date: new Date('2023-07-25'),
+                PasswordHash: hashedPassword,
                 Placed: false,
             },
             {
@@ -364,6 +370,7 @@ async function main() {
                 Gender: 'Female',
                 Year: 1,
                 Admission_Date: new Date('2024-08-05'),
+                PasswordHash: hashedPassword,
                 Placed: false,
             },
             {
@@ -376,6 +383,7 @@ async function main() {
                 Gender: 'Male',
                 Year: 1,
                 Admission_Date: new Date('2023-08-10'),
+                PasswordHash: hashedPassword,
                 Placed: false,
             },
             {
@@ -388,6 +396,7 @@ async function main() {
                 Gender: 'Female',
                 Year: 1,
                 Admission_Date: new Date('2024-07-30'),
+                PasswordHash: hashedPassword,
                 Placed: false,
             },
             {
@@ -400,6 +409,7 @@ async function main() {
                 Gender: 'Male',
                 Year: 2,
                 Admission_Date: new Date('2023-08-02'),
+                PasswordHash: hashedPassword,
                 Placed: false,
             },
             {
@@ -412,6 +422,7 @@ async function main() {
                 Gender: 'Female',
                 Year: 1,
                 Admission_Date: new Date('2024-08-03'),
+                PasswordHash: hashedPassword,
                 Placed: false,
             },
             {
@@ -424,6 +435,7 @@ async function main() {
                 Gender: 'Male',
                 Year: 1,
                 Admission_Date: new Date('2023-07-28'),
+                PasswordHash: hashedPassword,
                 Placed: false,
             },
         ],
