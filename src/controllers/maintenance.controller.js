@@ -1,23 +1,42 @@
+// src/controllers/maintenance.controller.js
 const maintenanceService = require('../services/maintenance.service');
+const { sendSuccess } = require('../utils/response');
 
-exports.autoScheduleMachines = async (req, res, next) => {
+// POST /maintenance/schedule/auto
+exports.autoScheduleForBatch = async (req, res, next) => {
     try {
-        const { itiId, tradeId, batch, timeSlot } = req.body;
+        const { itiId, tradeId, batch, timeSlotMinutes } = req.body;
 
-        // Basic validation
-        if (!itiId || !tradeId || !batch || !timeSlot) {
-            return res.status(400).json({ message: 'Missing required parameters: itiId, tradeId, batch, timeSlot' });
-        }
+        // later replace with auth (req.user.workerId)
+        const workerId = Number(req.body.workerId) || 1;
 
-        const { scheduledLogs, unscheduledStudents } = await maintenanceService.autoScheduleMachines({
-            itiId,
-            tradeId,
+        const result = await maintenanceService.autoScheduleForBatch({
+            itiId: Number(itiId),
+            tradeId: Number(tradeId),
             batch,
-            timeSlot,
+            timeSlotMinutes: Number(timeSlotMinutes) || 60,
+            workerId,
         });
 
-        res.status(201).json({ message: 'Machine scheduling completed.', scheduledLogs, unscheduledStudents });
-    } catch (error) {
-        next(error);
+        return sendSuccess(res, 201, 'Schedule generated', result);
+    } catch (err) {
+        next(err);
+    }
+};
+
+// GET /maintenance/schedule/today?itiId=&tradeId=&batch=
+exports.getTodaySchedule = async (req, res, next) => {
+    try {
+        const { itiId, tradeId, batch } = req.query;
+
+        const schedule = await maintenanceService.getTodaySchedule({
+            itiId: Number(itiId),
+            tradeId: tradeId ? Number(tradeId) : undefined,
+            batch,
+        });
+
+        return sendSuccess(res, 200, 'Today schedule', schedule);
+    } catch (err) {
+        next(err);
     }
 };
