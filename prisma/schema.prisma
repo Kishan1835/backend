@@ -56,6 +56,8 @@ model Machines {
   Updated_At           DateTime      @updatedAt
   Last_used            DateTime
   Faults               Int
+  // Prevent concurrent scheduling by reserving a machine briefly
+  Reserved             Boolean  @default(false)
 
   iti                ITI                   @relation(fields: [ITI_ID], references: [ITI_ID])
   maintenanceWorkers Maintenance_Workers[] @relation("Machines_maintenanceWorkers")
