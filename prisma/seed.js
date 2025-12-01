@@ -1,7 +1,6 @@
-require('dotenv').config();
-const prisma = require('../src/config/db');
-const { WorkerRole, MachineStatus } = require('@prisma/client');
-const bcrypt = require('bcrypt');
+import 'dotenv/config';
+import prisma from '../src/config/prismaClient.js';
+import bcrypt from 'bcrypt';
 
 async function main() {
     const hashedPassword = await bcrypt.hash('password', 10); // Hash a default password
@@ -213,7 +212,7 @@ async function main() {
             {
                 ITI_ID: itiMumbai.ITI_ID,
                 Name: 'Rahul Deshmukh',
-                Role: WorkerRole.TRAINING_OFFICER,
+                Role: 'TRAINING_OFFICER',
                 Experience: 10,
                 Salary: 55000,
                 Contact: '9876543210',
@@ -222,16 +221,16 @@ async function main() {
             {
                 ITI_ID: itiMumbai.ITI_ID,
                 Name: 'Sneha Kulkarni',
-                Role: WorkerRole.ASSISTANT_TRAINING_OFFICER,
+                Role: 'ASSISTANT_TRAINING_OFFICER',
                 Experience: 6,
                 Salary: 48000,
                 Contact: '9876500011',
                 Active_Status: true,
             },
             {
-                ITI_ID: itiDelhi.ITI_ID,
-                Name: 'Amit Verma',
-                Role: WorkerRole.POLICY_MAKER,
+                ITI_ID: itiMumbai.ITI_ID,
+                Name: 'Priya Joshi',
+                Role: 'POLICY_MAKER',
                 Experience: 8,
                 Salary: 52000,
                 Contact: '9811000022',
@@ -240,7 +239,7 @@ async function main() {
             {
                 ITI_ID: itiChennai.ITI_ID,
                 Name: 'Priya Narayanan',
-                Role: WorkerRole.LAB_PRINCIPAL,
+                Role: 'LAB_PRINCIPAL',
                 Experience: 7,
                 Salary: 50000,
                 Contact: '9894000033',
@@ -249,7 +248,7 @@ async function main() {
             {
                 ITI_ID: itiBengaluru.ITI_ID,
                 Name: 'Karthik R',
-                Role: WorkerRole.TRAINING_OFFICER,
+                Role: 'TRAINING_OFFICER',
                 Experience: 5,
                 Salary: 47000,
                 Contact: '9916000044',
@@ -258,7 +257,7 @@ async function main() {
             {
                 ITI_ID: itiHyderabad.ITI_ID,
                 Name: 'Farhan Ali',
-                Role: WorkerRole.ASSISTANT_TRAINING_OFFICER,
+                Role: 'ASSISTANT_TRAINING_OFFICER',
                 Experience: 9,
                 Salary: 49000,
                 Contact: '9898000055',
@@ -267,7 +266,7 @@ async function main() {
             {
                 ITI_ID: itiAhmedabad.ITI_ID,
                 Name: 'Neha Shah',
-                Role: WorkerRole.LAB_PRINCIPAL,
+                Role: 'LAB_PRINCIPAL',
                 Experience: 6,
                 Salary: 46000,
                 Contact: '9825000066',
@@ -276,7 +275,7 @@ async function main() {
             {
                 ITI_ID: itiJaipur.ITI_ID,
                 Name: 'Ramesh Singh',
-                Role: WorkerRole.TRAINING_OFFICER,
+                Role: 'TRAINING_OFFICER',
                 Experience: 11,
                 Salary: 54000,
                 Contact: '9928000077',
@@ -285,7 +284,7 @@ async function main() {
             {
                 ITI_ID: itiKolkata.ITI_ID,
                 Name: 'Sourav Dutta',
-                Role: WorkerRole.ASSISTANT_TRAINING_OFFICER,
+                Role: 'ASSISTANT_TRAINING_OFFICER',
                 Experience: 8,
                 Salary: 51000,
                 Contact: '9830000088',
@@ -294,7 +293,7 @@ async function main() {
             {
                 ITI_ID: itiLucknow.ITI_ID,
                 Name: 'Anita Yadav',
-                Role: WorkerRole.POLICY_MAKER,
+                Role: 'POLICY_MAKER',
                 Experience: 4,
                 Salary: 42000,
                 Contact: '9839000099',
@@ -455,7 +454,7 @@ async function main() {
                 Installation_Date: new Date('2019-06-10'),
                 Last_Service_Date: new Date('2024-03-15'),
                 Warranty_Expiry_Date: new Date('2024-06-10'),
-                Status: MachineStatus.HEALTHY,
+                Status: 'HEALTHY',
                 Last_used: new Date('2024-11-20'),
                 Faults: 0,
             },
@@ -468,7 +467,7 @@ async function main() {
                 Installation_Date: new Date('2020-01-05'),
                 Last_Service_Date: new Date('2024-02-01'),
                 Warranty_Expiry_Date: new Date('2025-01-05'),
-                Status: MachineStatus.HEALTHY,
+                Status: 'HEALTHY',
                 Last_used: new Date('2024-11-19'),
                 Faults: 1,
             },
@@ -481,7 +480,7 @@ async function main() {
                 Installation_Date: new Date('2021-07-01'),
                 Last_Service_Date: new Date('2024-05-10'),
                 Warranty_Expiry_Date: new Date('2024-07-01'),
-                Status: MachineStatus.ALERT,
+                Status: 'ALERT',
                 Last_used: new Date('2024-11-18'),
                 Faults: 2,
             },
@@ -494,7 +493,7 @@ async function main() {
                 Installation_Date: new Date('2018-03-20'),
                 Last_Service_Date: new Date('2024-01-10'),
                 Warranty_Expiry_Date: new Date('2021-03-20'),
-                Status: MachineStatus.CRITICAL,
+                Status: 'CRITICAL',
                 Last_used: new Date('2024-10-30'),
                 Faults: 4,
             },
@@ -507,7 +506,7 @@ async function main() {
                 Installation_Date: new Date('2022-09-15'),
                 Last_Service_Date: new Date('2024-06-12'),
                 Warranty_Expiry_Date: new Date('2025-09-15'),
-                Status: MachineStatus.HEALTHY,
+                Status: 'HEALTHY',
                 Last_used: new Date('2024-11-21'),
                 Faults: 0,
             },
@@ -520,7 +519,7 @@ async function main() {
                 Installation_Date: new Date('2020-11-10'),
                 Last_Service_Date: new Date('2024-04-05'),
                 Warranty_Expiry_Date: new Date('2023-11-10'),
-                Status: MachineStatus.ALERT,
+                Status: 'ALERT',
                 Last_used: new Date('2024-11-15'),
                 Faults: 2,
             },
@@ -533,7 +532,7 @@ async function main() {
                 Installation_Date: new Date('2019-08-18'),
                 Last_Service_Date: new Date('2024-02-20'),
                 Warranty_Expiry_Date: new Date('2022-08-18'),
-                Status: MachineStatus.HEALTHY,
+                Status: 'HEALTHY',
                 Last_used: new Date('2024-11-17'),
                 Faults: 1,
             },
@@ -546,7 +545,7 @@ async function main() {
                 Installation_Date: new Date('2021-03-01'),
                 Last_Service_Date: new Date('2024-03-01'),
                 Warranty_Expiry_Date: new Date('2024-03-01'),
-                Status: MachineStatus.ALERT,
+                Status: 'ALERT',
                 Last_used: new Date('2024-11-16'),
                 Faults: 2,
             },
@@ -559,7 +558,7 @@ async function main() {
                 Installation_Date: new Date('2020-02-10'),
                 Last_Service_Date: new Date('2024-05-05'),
                 Warranty_Expiry_Date: new Date('2023-02-10'),
-                Status: MachineStatus.HEALTHY,
+                Status: 'HEALTHY',
                 Last_used: new Date('2024-11-14'),
                 Faults: 1,
             },
@@ -572,7 +571,7 @@ async function main() {
                 Installation_Date: new Date('2019-09-05'),
                 Last_Service_Date: new Date('2024-01-20'),
                 Warranty_Expiry_Date: new Date('2022-09-05'),
-                Status: MachineStatus.ALERT,
+                Status: 'ALERT',
                 Last_used: new Date('2024-11-13'),
                 Faults: 3,
             },

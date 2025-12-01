@@ -11,3 +11,21 @@ export const findByBatch = ({ itiId, tradeId, batch }) => {
         orderBy: { Student_ID: 'asc' },
     });
 };
+
+export const findWorkerInITI = (itiId, workerId) => {
+    return prisma.iTI_Workers.findFirst({
+        where: {
+            ITI_ID: itiId,
+            Worker_ID: workerId,
+        },
+    });
+};
+
+export const findAnyWorkerInITI = (itiId) => {
+    return prisma.iTI_Workers.findFirst({
+        where: {
+            ITI_ID: itiId,
+        },
+        orderBy: { Worker_ID: 'asc' },
+    });
+};

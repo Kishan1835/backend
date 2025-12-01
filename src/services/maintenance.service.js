@@ -10,6 +10,21 @@ export const autoScheduleForBatch = async ({ itiId, tradeId, batch, timeSlotMinu
         return { logs: [], unscheduledStudents: students, message: 'No students in batch' };
     }
 
+    // Validate that the worker exists for this ITI, or find one
+    let validWorkerId = workerId;
+    if (workerId) {
+        const workerExists = await studentsRepo.findWorkerInITI(itiId, workerId);
+        if (!workerExists) {
+            console.warn(`Worker ${workerId} not found for ITI ${itiId}, finding alternative...`);
+            const availableWorker = await studentsRepo.findAnyWorkerInITI(itiId);
+            if (!availableWorker) {
+                return { logs: [], unscheduledStudents: students, message: 'No workers available for this ITI' };
+            }
+            validWorkerId = availableWorker.Worker_ID;
+            console.log(`Using worker ${validWorkerId} instead`);
+        }
+    }
+
     const machines = await machinesRepo.findForScheduling(itiId);
     // Only use truly healthy machines for student scheduling.
     // ALERT or CRITICAL machines should not be assigned to students; they
@@ -31,7 +46,7 @@ export const autoScheduleForBatch = async ({ itiId, tradeId, batch, timeSlotMinu
         logsToCreate.push({
             ITI_ID: itiId,
             Machine_ID: machine.Machine_ID,
-            Worker_ID: workerId,
+            Worker_ID: validWorkerId,
             Student_ID: student.Student_ID,
             Time: timeSlotMinutes,
             Scheduled_On: now,
