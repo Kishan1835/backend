@@ -3,6 +3,7 @@ import * as maintenanceService from '../services/maintenance.service.js';
 import { sendSuccess } from '../utils/response.js';
 import prisma from '../config/prismaClient.js';
 import { logAction } from '../utils/logger.js';
+import * as maintenanceLogRepo from '../repositories/maintenanceLog.repository.js';
 
 export const assignMaintenanceTask = async (machineId, issueReported, severity) => {
     try {
@@ -204,5 +205,24 @@ export const getTodaySchedule = async (req, res, next) => {
         return sendSuccess(res, 200, 'Today schedule', schedule);
     } catch (err) {
         next(err);
+    }
+};
+
+export const getMaintenanceLogsByITI = async (req, res) => {
+    try {
+        const { itiId } = req.params;
+        const logs = await maintenanceLogRepo.findByITI(parseInt(itiId));
+
+        if (!logs || logs.length === 0) {
+            await logAction('MaintenanceLog', null, 'Get Maintenance Logs by ITI', { itiId, status: 'No logs found' });
+            return res.status(200).json([]);
+        }
+
+        await logAction('MaintenanceLog', null, 'Get Maintenance Logs by ITI', { itiId, count: logs.length });
+        res.status(200).json(logs);
+    } catch (error) {
+        console.error('Error fetching maintenance logs by ITI:', error);
+        await logAction('MaintenanceLog', null, 'Get Maintenance Logs by ITI Error', { error: error.message });
+        res.status(500).json({ message: 'Internal server error' });
     }
 };

@@ -25,6 +25,25 @@ export const getAllMaintenanceWorkers = async (req, res) => {
     }
 };
 
+export const getMaintenanceWorkersByITI = async (req, res) => {
+    try {
+        const { itiId } = req.params;
+        const workers = await maintenanceWorkerRepository.findByITI(parseInt(itiId));
+
+        if (!workers || workers.length === 0) {
+            await logAction('MaintenanceWorker', null, 'Get Maintenance Workers by ITI', { itiId, status: 'No workers found' });
+            return res.status(200).json([]);
+        }
+
+        await logAction('MaintenanceWorker', null, 'Get Maintenance Workers by ITI', { itiId, count: workers.length });
+        res.status(200).json(workers);
+    } catch (error) {
+        console.error('Error fetching Maintenance Workers by ITI:', error);
+        await logAction('MaintenanceWorker', null, 'Get Maintenance Workers by ITI Error', { error: error.message });
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
 export const getMaintenanceWorkerById = async (req, res) => {
     try {
         const { id } = req.params;

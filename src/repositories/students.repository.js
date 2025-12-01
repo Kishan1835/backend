@@ -11,3 +11,15 @@ export const findByBatch = ({ itiId, tradeId, batch }) => {
         orderBy: { Student_ID: 'asc' },
     });
 };
+
+export const findByITI = async (itiId) => {
+    return prisma.students.findMany({
+        where: {
+            ITI_ID: itiId,
+        },
+        include: {
+            trade: true,
+        },
+        orderBy: { Student_ID: 'asc' },
+    });
+};

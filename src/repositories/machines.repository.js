@@ -35,6 +35,15 @@ export const findForScheduling = async (itiId) => {
     });
 };
 
+export const findByITI = async (itiId) => {
+    return prisma.machines.findMany({
+        where: {
+            ITI_ID: itiId,
+        },
+        orderBy: { Machine_ID: 'asc' },
+    });
+};
+
 export const updateLastUsedBulk = (machineIds) => {
     const updates = machineIds.map((id) =>
         prisma.machines.updateMany({

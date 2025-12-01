@@ -28,6 +28,25 @@ export const getAllMachines = async (req, res) => {
     }
 };
 
+export const getMachinesByITI = async (req, res) => {
+    try {
+        const { itiId } = req.params;
+        const machines = await machineRepository.findByITI(parseInt(itiId));
+
+        if (!machines || machines.length === 0) {
+            await logAction('Machine', null, 'Get Machines by ITI', { itiId, status: 'No machines found' });
+            return res.status(200).json([]);
+        }
+
+        await logAction('Machine', null, 'Get Machines by ITI', { itiId, count: machines.length });
+        res.status(200).json(machines);
+    } catch (error) {
+        console.error('Error fetching machines by ITI:', error);
+        await logAction('Machine', null, 'Get Machines by ITI Error', { error: error.message });
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
 export const getMachineById = async (req, res) => {
     try {
         const { id } = req.params;

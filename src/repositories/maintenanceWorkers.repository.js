@@ -19,3 +19,12 @@ export const updateMaintenanceWorker = async (id, data) => {
 export const deleteMaintenanceWorker = async (id) => {
     return prisma.maintenance_Workers.delete({ where: { M_Worker_ID: id } });
 };
+
+export const findByITI = async (itiId) => {
+    return prisma.maintenance_Workers.findMany({
+        where: {
+            ITI_ID: itiId,
+        },
+        orderBy: { M_Worker_ID: 'asc' },
+    });
+};

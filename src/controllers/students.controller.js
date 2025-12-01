@@ -71,6 +71,25 @@ export const getAssignedMachines = async (req, res) => {
     }
 };
 
+export const getStudentsByITI = async (req, res) => {
+    try {
+        const { itiId } = req.params;
+        const students = await studentsRepo.findByITI(parseInt(itiId));
+
+        if (!students || students.length === 0) {
+            await logAction('Student', null, 'Get Students by ITI', { itiId, status: 'No students found' });
+            return res.status(200).json([]);
+        }
+
+        await logAction('Student', null, 'Get Students by ITI', { itiId, count: students.length });
+        res.status(200).json(students);
+    } catch (error) {
+        console.error('Error fetching students by ITI:', error);
+        await logAction('Student', null, 'Get Students by ITI Error', { error: error.message });
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
 
 
 

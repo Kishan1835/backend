@@ -11,6 +11,7 @@ import tradeRoutes from './routes/trades.routes.js';
 import workerRoutes from './routes/workers.routes.js';
 import maintenanceWorkerRoutes from './routes/maintenanceWorkers.routes.js';
 import inventoryRoutes from './routes/inventory.routes.js';
+import dashboardRoutes from './routes/dashboard.routes.js';
 // import auctionRoutes from './routes/auctions.routes.js';
 // import scheduleLogRoutes from './routes/scheduleLogs.routes.js';
 import errorHandler from './middleware/error.middleware.js';
@@ -30,6 +31,7 @@ app.use('/api/trades', tradeRoutes);
 app.use('/api/workers', workerRoutes);
 app.use('/api/maintenance-workers', authenticateToken, maintenanceWorkerRoutes);
 app.use('/api/inventory', authenticateToken, inventoryRoutes);
+app.use('/api/dashboard', authenticateToken, dashboardRoutes);
 // app.use('/api/auctions', auctionRoutes);
 // app.use('/api/schedule-logs', scheduleLogRoutes);
 
